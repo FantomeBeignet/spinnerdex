@@ -1,0 +1,12 @@
+package spinnerdex
+
+import (
+	"fmt"
+
+	"github.com/julienschmidt/httprouter"
+)
+
+func main() {
+	router := httprouter.New()
+	log.Fatal(http.ListenAndServe(":8080", router))
+}
