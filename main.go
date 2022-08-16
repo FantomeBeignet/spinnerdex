@@ -41,6 +41,22 @@ func GetSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	fmt.Fprint(w, string(json))
 }
 
+func EditSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	db := InitDB()
+	name := p.ByName("name")
+	var spinner Spinner
+	db.First(&spinner, "name = ?", name)
+	twitter := r.FormValue("twitter")
+	youtube := r.FormValue("youtube")
+	if twitter != "" {
+		db.Model(&spinner).Where("name = ?", name).Update("twitter", twitter)
+	}
+	if youtube != "" {
+		db.Model(&spinner).Where("name = ?", name).Update("youtube", youtube)
+	}
+	log.Printf("Updated spinner %s with twitter %s and youtube %s", name, twitter, youtube)
+}
+
 func main() {
 	env := godotenv.Load()
 	if env != nil {
@@ -49,6 +65,7 @@ func main() {
 	port := os.Getenv("PORT")
 	router := httprouter.New()
 	router.GET("/api/spinner/:name", GetSpinner)
+	router.PATCH("/api/edit/:name", EditSpinner)
 	log.Println("Listening on port", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
