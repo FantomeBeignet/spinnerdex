@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -40,8 +42,13 @@ func GetSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 }
 
 func main() {
+	env := godotenv.Load()
+	if env != nil {
+		log.Fatal("Error loading .env file")
+	}
+	port := os.Getenv("PORT")
 	router := httprouter.New()
 	router.GET("/spinner/:name", GetSpinner)
-	log.Println("Listening on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Println("Listening on port", port)
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
