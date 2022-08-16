@@ -48,7 +48,7 @@ func main() {
 	}
 	port := os.Getenv("PORT")
 	router := httprouter.New()
-	router.GET("/spinner/:name", GetSpinner)
+	router.GET("/api/spinner/:name", GetSpinner)
 	log.Println("Listening on port", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
