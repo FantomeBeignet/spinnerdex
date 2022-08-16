@@ -19,6 +19,7 @@ type Spinner struct {
 	Name    string `json:"name"`
 	Twitter string `json:"twitter"`
 	Youtube string `json:"youtube"`
+	Board   string `json:"board"`
 }
 
 func InitDB() *gorm.DB {
@@ -34,7 +35,6 @@ func GetSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	name := strings.ToLower(p.ByName("name"))
 	var spinner Spinner
 	db.First(&spinner, "key = ?", name)
-	log.Println(spinner.Name, spinner.Twitter, spinner.Youtube)
 	json, err := json.Marshal(spinner)
 	if err != nil {
 		panic(err)
@@ -50,13 +50,17 @@ func EditSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	db.First(&spinner, "key = ?", name)
 	twitter := r.FormValue("twitter")
 	youtube := r.FormValue("youtube")
+	board := r.FormValue("board")
 	if twitter != "" {
 		db.Model(&spinner).Where("key = ?", name).Update("twitter", twitter)
 	}
 	if youtube != "" {
 		db.Model(&spinner).Where("key = ?", name).Update("youtube", youtube)
 	}
-	log.Printf("Updated spinner %s with twitter %s and youtube %s", name, twitter, youtube)
+	if board != "" {
+		db.Model(&spinner).Where("key = ?", name).Update("board", board)
+	}
+	log.Printf("Updated spinner %s with twitter %s and youtube %s and board %s", name, twitter, youtube, board)
 }
 
 func AddSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -65,7 +69,8 @@ func AddSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	key := strings.ToLower(name)
 	twitter := r.FormValue("twitter")
 	youtube := r.FormValue("youtube")
-	db.Create(&Spinner{Key: key, Name: name, Twitter: twitter, Youtube: youtube})
+	board := r.FormValue("board")
+	db.Create(&Spinner{Key: key, Name: name, Twitter: twitter, Youtube: youtube, Board: board})
 	log.Printf("Added spinner %s with twitter %s and youtube %s", name, twitter, youtube)
 }
 
