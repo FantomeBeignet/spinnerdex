@@ -30,7 +30,7 @@ func InitDB() *gorm.DB {
 
 func GetSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	db := InitDB()
-	name := p.ByName("name")
+	name := strings.ToLower(p.ByName("name"))
 	var spinner Spinner
 	db.Where("name = ?", name).First(&spinner)
 	log.Println(spinner.Name, spinner.Twitter, spinner.Youtube)
@@ -44,7 +44,7 @@ func GetSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 func EditSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	db := InitDB()
-	name := p.ByName("name")
+	name := strings.ToLower(p.ByName("name"))
 	var spinner Spinner
 	db.First(&spinner, "name = ?", name)
 	twitter := r.FormValue("twitter")
