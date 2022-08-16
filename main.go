@@ -15,9 +15,9 @@ import (
 )
 
 type Spinner struct {
-	Name    string
-	Twitter string
-	Youtube string
+	Name    string `json:"name"`
+	Twitter string `json:"twitter"`
+	Youtube string `json:"youtube"`
 }
 
 func InitDB() *gorm.DB {
