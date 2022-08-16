@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
@@ -57,6 +58,15 @@ func EditSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	log.Printf("Updated spinner %s with twitter %s and youtube %s", name, twitter, youtube)
 }
 
+func AddSpinner(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	db := InitDB()
+	name := strings.ToLower(r.FormValue("name"))
+	twitter := r.FormValue("twitter")
+	youtube := r.FormValue("youtube")
+	db.Create(&Spinner{Name: name, Twitter: twitter, Youtube: youtube})
+	log.Printf("Added spinner %s with twitter %s and youtube %s", name, twitter, youtube)
+}
+
 func main() {
 	env := godotenv.Load()
 	if env != nil {
@@ -66,6 +76,7 @@ func main() {
 	router := httprouter.New()
 	router.GET("/api/spinner/:name", GetSpinner)
 	router.PATCH("/api/edit/:name", EditSpinner)
+	router.POST("/api/add", AddSpinner)
 	log.Println("Listening on port", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
