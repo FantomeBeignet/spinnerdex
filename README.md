@@ -1,4 +1,4 @@
-# Spinnderdex
+# Spinnerdex
 
 ## Description
 
