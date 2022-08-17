@@ -33,3 +33,8 @@ with open(args.csv) as spinners:
         if not db_spinner:
             db.session.add(spinner)
             db.session.commit()
+        else:
+            db_spinner.twitter = twitter or db_spinner.twitter
+            db_spinner.youtube = youtube or db_spinner.youtube
+            db_spinner.board = board or db_spinner.board
+            db.session.commit()
