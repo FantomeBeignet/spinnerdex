@@ -1,8 +1,16 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--db", type=str, help="Database name", required=True)
+parser.add_argument("--csv", type=str, help="CSV file name", required=True)
+args = parser.parse_args()
+
+print(args.db, args.csv)
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///spinners.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = args.db
 db = SQLAlchemy(app)
 
 
@@ -17,6 +25,6 @@ db.create_all()
 
 spinners = Spinners.query.all()
 
-with open("spinners.csv", "w") as csv:
+with open(args.csv, "w") as csv:
     for spinner in spinners:
         csv.write(f"{spinner.name},{spinner.twitter},{spinner.youtube}\n")
