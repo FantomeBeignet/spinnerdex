@@ -1,4 +1,4 @@
 .env
 .venv
-db/spinners.db
-db/spinners.csv
+api/db/spinners.db
+api/db/spinners.csv
