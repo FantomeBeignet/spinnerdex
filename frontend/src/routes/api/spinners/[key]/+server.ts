@@ -61,3 +61,35 @@ export async function POST({
     headers: new Headers({ "Content-Type": "application/json" }),
   });
 }
+
+export async function PATCH({
+  params,
+  request,
+}: {
+  params: { key: string };
+  request: Request;
+}) {
+  const key = params.key;
+  const body = await request.formData();
+  const twitter = body.get("twitter")?.toString() ?? undefined;
+  const youtube = body.get("youtube")?.toString() ?? undefined;
+  const board = body.get("board")?.toString() ?? undefined;
+  const spinner = await prisma.spinners
+    .update({
+      where: {
+        key: key,
+      },
+      data: {
+        twitter: twitter,
+        youtube: youtube,
+        board: board,
+      },
+    })
+    .catch((e) => {
+      throw error(500, e.message);
+    });
+  await prisma.$disconnect();
+  return new Response(JSON.stringify(spinner), {
+    headers: new Headers({ "Content-Type": "application/json" }),
+  });
+}
