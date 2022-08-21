@@ -57,9 +57,7 @@ export async function POST({
       throw error(500, e.message);
     });
   await prisma.$disconnect();
-  return new Response(JSON.stringify(spinner), {
-    headers: new Headers({ "Content-Type": "application/json" }),
-  });
+  return new Response("OK", { status: 201 });
 }
 
 export async function PATCH({
@@ -89,7 +87,5 @@ export async function PATCH({
       throw error(500, e.message);
     });
   await prisma.$disconnect();
-  return new Response(JSON.stringify(spinner), {
-    headers: new Headers({ "Content-Type": "application/json" }),
-  });
+  return new Response("OK", { status: 204 });
 }
