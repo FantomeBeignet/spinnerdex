@@ -4,12 +4,12 @@
   let spinners = Object.values(data);
   let displayedSpinners = [...spinners];
   let currentSearch = "";
-  let boards = ["Any board", ...new Set(spinners.map((s) => s.board))];
-  let currentBoard = "Any board";
+  let boards = ["Board", ...new Set(spinners.map((s) => s.board))];
+  let currentBoard = "Board";
   $: displayedSpinners = spinners.filter((spinner) => {
     return (
       spinner.key.toLowerCase().includes(currentSearch.toLowerCase()) &&
-      (spinner.board === currentBoard || currentBoard === "Any board")
+      (spinner.board === currentBoard || currentBoard === "Board")
     );
   });
 </script>
@@ -24,7 +24,7 @@
     <input
       type="text"
       bind:value={currentSearch}
-      placeholder="Search"
+      placeholder="Spinner"
       class="border-2 border-background-light bg-background-light rounded-sm md:rounded p-3 text-white  focus:border-primary flex-grow md:text-lg"
     />
     <select
