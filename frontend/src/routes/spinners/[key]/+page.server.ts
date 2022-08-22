@@ -1,6 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
 import { TwitterApi } from "twitter-api-v2";
+import { npm_lifecycle_event } from "$env/static/private";
 
 const prisma = new PrismaClient();
 const twitterClient = new TwitterApi(process.env.TWITTER_TOKEN!);
@@ -23,13 +24,20 @@ export async function load({ params }: { params: { key: string } }) {
     .catch((e) => {
       throw error(404, "Spinner not found");
     });
-  const twitterUsername = spinner!.twitter?.split("/")[3];
-  const twitterData = await twitterClient.v2.userByUsername(twitterUsername!, {
-    "user.fields": "profile_image_url",
-  });
+  let profilePicture = "/Spinnerdex.png";
+  if (spinner?.twitter != "") {
+    const twitterUsername = spinner!.twitter?.split("/")[3];
+    const twitterData = await twitterClient.v2.userByUsername(
+      twitterUsername!,
+      {
+        "user.fields": "profile_image_url",
+      }
+    );
+    profilePicture = twitterData.data.profile_image_url!;
+  }
   const data = {
     spinner: spinner!,
-    profilePicture: twitterData.data.profile_image_url,
+    profilePicture: profilePicture,
   };
   return data;
 }
