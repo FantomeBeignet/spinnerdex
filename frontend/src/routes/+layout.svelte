@@ -4,7 +4,7 @@
 
 <div class="min-h-screen bg-background-dark">
   <nav class="bg-background-dark border-b p-3 border-background-light">
-    <span class="text-white font-bold text-2xl"> SpinnerDex </span>
+    <img src="/text.png" alt="SpinnerDex logotype" class="h-8 md:h-16" />
   </nav>
 
   <slot />
