@@ -29,6 +29,29 @@ export async function load({ params }: { params: { key: string } }) {
       throw error(404, "Spinner not found");
     });
   let profilePicture = "/Spinnerdex.png";
+  var youtubeUsername = "Youtube link";
+  var youtubeData = undefined;
+  var youtubePfp = undefined;
+  if (spinner?.youtube) {
+    const linkType = spinner!.youtube?.split("/")[3];
+    if (linkType === "channel") {
+      const youtubeID = spinner!.youtube?.split("/")[4]!;
+      youtubeData = await youtubeClient.channels.list({
+        part: ["snippet"],
+        id: [youtubeID],
+      });
+    } else {
+      youtubeUsername = spinner!.youtube?.split("/")[4]!;
+      youtubeData = await youtubeClient.channels.list({
+        part: ["snippet"],
+        forUsername: youtubeUsername,
+      });
+    }
+    if (youtubeData?.data?.items) {
+      youtubePfp = youtubeData.data.items[0]!.snippet!.thumbnails!.high!.url;
+      youtubeUsername = youtubeData.data.items[0]!.snippet!.title!;
+    }
+  }
   if (spinner?.twitter != "") {
     const twitterUsername = spinner!.twitter?.split("/")[3];
     const twitterData = await twitterClient.v2.userByUsername(
@@ -39,30 +62,13 @@ export async function load({ params }: { params: { key: string } }) {
     );
     profilePicture = twitterData.data.profile_image_url!;
   }
-  if (spinner?.youtube != "" && spinner?.twitter === "") {
-    var youtubeData = undefined;
-    const linkType = spinner!.youtube?.split("/")[3];
-    if (linkType === "channel") {
-      const youtubeID = spinner!.youtube?.split("/")[4]!;
-      youtubeData = await youtubeClient.channels.list({
-        part: ["snippet"],
-        id: [youtubeID],
-      });
-    } else {
-      const youtubeUsername = spinner!.youtube?.split("/")[4]!;
-      youtubeData = await youtubeClient.channels.list({
-        part: ["snippet"],
-        forUsername: youtubeUsername,
-      });
-    }
-    if (youtubeData.data.items) {
-      profilePicture =
-        youtubeData.data.items[0]!.snippet!.thumbnails!.high!.url!;
-    }
+  if (youtubePfp && spinner?.twitter === "") {
+    profilePicture = youtubePfp;
   }
   const data = {
     spinner: spinner!,
     profilePicture: profilePicture,
+    youtubeUsername: youtubeUsername,
   };
   return data;
 }

@@ -7,6 +7,7 @@
       board: "",
     },
     profilePicture: "",
+    youtubeUsername: "",
   };
   const spinner = data.spinner;
   var twitterAt = "No Twitter found";
@@ -14,6 +15,7 @@
     twitterAt = "@" + spinner.twitter.split("/")[3];
   }
   const profilePicture = data.profilePicture;
+  const youtubeUsername = data.youtubeUsername;
 </script>
 
 <main class="bg-background-dark grid place-items-center my-20 mx-10 md:m-32">
@@ -68,7 +70,9 @@
             class="h-6 md:h-8 w-6 md:w-8"
           />
           {#if spinner.youtube != ""}
-            <a href={spinner.youtube} class="block md:text-lg">YouTube link</a>
+            <a href={spinner.youtube} class="block md:text-lg"
+              >{youtubeUsername}</a
+            >
           {:else}
             <p class="italic md:text-lg">No YouTube found</p>
           {/if}
