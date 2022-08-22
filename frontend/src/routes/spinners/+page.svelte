@@ -3,23 +3,34 @@
   export let data;
   let spinners = Object.values(data);
   let displayedSpinners = [...spinners];
-  console.log(spinners);
   let currentSearch = "";
+  let boards = ["Any board", ...new Set(spinners.map((s) => s.board))];
+  let currentBoard = "Any board";
   $: displayedSpinners = spinners.filter((spinner) => {
-    return spinner.key.toLowerCase().includes(currentSearch.toLowerCase());
+    return (
+      spinner.key.toLowerCase().includes(currentSearch.toLowerCase()) &&
+      (spinner.board === currentBoard || currentBoard === "Any board")
+    );
   });
-  $: console.log(currentSearch);
 </script>
 
 <main class="grid place-items-center p-8 gap-y-6">
   <h1 class="font-bold text-white text-2xl">Search for spinners here</h1>
-  <form class="">
+  <form class="flex flex-col items-center justify-center gap-4">
     <input
       type="text"
       bind:value={currentSearch}
       placeholder="Search"
       class="border-2 border-background-light bg-background-light rounded-sm p-3 text-white  focus:border-primary"
     />
+    <select
+      bind:value={currentBoard}
+      class="border-2 border-background-light bg-background-light rounded-sm p-3 text-white"
+    >
+      {#each boards as board}
+        <option value={board}>{board}</option>
+      {/each}
+    </select>
   </form>
   <div class="border border-background-light w-full" />
   <div class="w-10/12">
