@@ -28,15 +28,31 @@
     <div class="flex flex-col gap-6 overflow-hidden">
       <h1 class="font-semibold text-xl text-center">{spinner.name}</h1>
       <div
-        class="flex flex-col items-start justify-center gap-2 text-center w-full overflow-hidden"
+        class="flex flex-col items-start justify-center gap-3 text-center w-full overflow-hidden"
       >
-        <p>{spinner.board}</p>
+        <span class="flex gap-2 items-center justify-start">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+            />
+          </svg>
+          <p class="justify-self-center">{spinner.board}</p></span
+        >
         <span class="flex gap-2 items-center justify-start">
           <img src="/twitter.svg" alt="twitter logo" class="h-6 w-6 inline" />
           {#if spinner.twitter != ""}
             <a href={spinner.twitter} class="block">{twitterAt}</a>
           {:else}
-            <p>{twitterAt}</p>
+            <p class="italic">{twitterAt}</p>
           {/if}
         </span>
         <span class="flex gap-2 items-center justify-start">
@@ -48,7 +64,7 @@
               >YouTube link</a
             >
           {:else}
-            <p>No YouTube found</p>
+            <p class="italic">No YouTube found</p>
           {/if}
         </span>
       </div>
