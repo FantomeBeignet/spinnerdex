@@ -32,18 +32,24 @@
       >
         <p>{spinner.board}</p>
         <span class="flex gap-2 items-center justify-start">
-          <img src="/twitter.svg" alt="twitter logo" class="h-6 w-6 inline" /><a
-            href={spinner.twitter}
-            class="block">{twitterAt}</a
-          >
+          <img src="/twitter.svg" alt="twitter logo" class="h-6 w-6 inline" />
+          {#if spinner.twitter != ""}
+            <a href={spinner.twitter} class="block">{twitterAt}</a>
+          {:else}
+            <p>{twitterAt}</p>
+          {/if}
         </span>
         <span class="flex gap-2 items-center justify-start">
           <img src="/youtube.svg" alt="youtube logo" class="h-6 w-6" />
-          <a
-            href={spinner.youtube}
-            class="block text-ellipsis whitespace-nowrap overflow-hidden"
-            >YouTube link</a
-          >
+          {#if spinner.youtube != ""}
+            <a
+              href={spinner.youtube}
+              class="block text-ellipsis whitespace-nowrap overflow-hidden"
+              >YouTube link</a
+            >
+          {:else}
+            <p>No YouTube found</p>
+          {/if}
         </span>
       </div>
     </div>
