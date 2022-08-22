@@ -27,6 +27,8 @@
 	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^4.2.1",
+		"google-auth-library": "^8.3.0",
+		"googleapis": "^107.0.0",
 		"twitter-api-v2": "^1.12.5"
 	}
 }
