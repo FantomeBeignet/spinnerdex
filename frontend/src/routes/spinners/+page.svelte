@@ -29,7 +29,7 @@
     />
     <select
       bind:value={currentBoard}
-      class="border-2 border-background-light bg-background-light rounded-sm md:rounded p-3 text-white w-36 md:text-lg md:w-40"
+      class="border-2 border-background-light bg-background-light rounded-sm md:rounded p-3 text-white w-28 md:text-lg md:w-32"
     >
       {#each boards as board}
         <option value={board}>{board}</option>
