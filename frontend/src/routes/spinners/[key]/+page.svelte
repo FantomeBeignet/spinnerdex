@@ -31,12 +31,20 @@
         class="flex flex-col items-start justify-center gap-2 text-center w-full overflow-hidden"
       >
         <p>{spinner.board}</p>
-        <a href={spinner.twitter} class="block">{twitterAt}</a>
-        <a
-          href={spinner.youtube}
-          class="block text-ellipsis whitespace-nowrap overflow-hidden"
-          >YouTube link</a
-        >
+        <span class="flex gap-2 items-center justify-start">
+          <img src="/twitter.svg" alt="twitter logo" class="h-6 w-6 inline" /><a
+            href={spinner.twitter}
+            class="block">{twitterAt}</a
+          >
+        </span>
+        <span class="flex gap-2 items-center justify-start">
+          <img src="/youtube.svg" alt="youtube logo" class="h-6 w-6" />
+          <a
+            href={spinner.youtube}
+            class="block text-ellipsis whitespace-nowrap overflow-hidden"
+            >YouTube link</a
+          >
+        </span>
       </div>
     </div>
   </div>
