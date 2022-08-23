@@ -16,7 +16,6 @@ export async function auth(request: Request) {
   } else {
     return { code: 401, message: "Unauthorized" };
   }
-  const saltRounds = 10;
   const prisma = new PrismaClient();
   const contributor = await prisma.contributor.findFirst({
     where: {
