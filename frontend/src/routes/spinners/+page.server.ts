@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 /** @type {import('./$types').PageLoad} */
 export async function load() {
-  const data = await prisma.spinners.findMany({
+  const data = await prisma.spinner.findMany({
     orderBy: {
       key: "asc",
     },

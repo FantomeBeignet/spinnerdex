@@ -13,7 +13,7 @@ const youtubeClient = google.youtube({
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }: { params: { key: string } }) {
   const key = params.key;
-  const spinner = await prisma.spinners
+  const spinner = await prisma.spinner
     .findFirst({
       where: {
         key: key,

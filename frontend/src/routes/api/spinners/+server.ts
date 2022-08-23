@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 export async function GET({ url }: { url: URL }) {
   const board = url.searchParams.get("board")?.toString() ?? undefined;
-  const spinners = await prisma.spinners.findMany({
+  const spinners = await prisma.spinner.findMany({
     where: {
       board: board,
     },
