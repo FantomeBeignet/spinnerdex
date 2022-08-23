@@ -37,7 +37,7 @@
         <span class="flex gap-2 md:gap-3 items-center justify-start">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 md:h-8 w-6 md:w-8 text-white"
+            class="h-6 md:h-8 w-6 md:w-8 stroke-white"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -58,7 +58,9 @@
             class="h-6 md:h-8 w-6 md:w-8 inline"
           />
           {#if spinner.twitter != ""}
-            <a href={spinner.twitter} class="block md:text-lg">{twitterAt}</a>
+            <a href={spinner.twitter} class="block md:text-lg hover:underline"
+              >{twitterAt}</a
+            >
           {:else}
             <p class="italic md:text-lg">{twitterAt}</p>
           {/if}
@@ -70,7 +72,7 @@
             class="h-6 md:h-8 w-6 md:w-8"
           />
           {#if spinner.youtube != ""}
-            <a href={spinner.youtube} class="block md:text-lg"
+            <a href={spinner.youtube} class="block md:text-lg hover:underline"
               >{youtubeUsername}</a
             >
           {:else}
