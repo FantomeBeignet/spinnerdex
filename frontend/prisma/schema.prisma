@@ -23,9 +23,15 @@ model Spinner {
   updaterId String
 }
 
+enum Role {
+  ADMIN
+  EDITOR
+}
+
 model Contributor {
   id      String    @id
   name    String    @unique
   keyHash String    @unique
+  role    Role      @default(EDITOR)
   Spinner Spinner[]
 }
