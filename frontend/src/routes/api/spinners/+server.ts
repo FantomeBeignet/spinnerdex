@@ -1,12 +1,11 @@
-import { error } from "@sveltejs/kit";
+import { error, type RequestEvent } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
-
-/** @type {import('./$types').RequestHandler} */
 
 const prisma = new PrismaClient();
 
-export async function GET({ url }: { url: URL }) {
-  const board = url.searchParams.get("board")?.toString() ?? undefined;
+/** @type {import('./$types').RequestHandler} */
+export async function GET(event: RequestEvent) {
+  const board = event.url.searchParams.get("board")?.toString() ?? undefined;
   const spinners = await prisma.spinner.findMany({
     where: {
       board: board,
