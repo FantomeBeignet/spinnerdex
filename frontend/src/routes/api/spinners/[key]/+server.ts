@@ -1,5 +1,6 @@
-import { error } from "@sveltejs/kit";
+import { error, type RequestEvent } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
+import { auth } from "$lib/auth";
 
 /** @type {import('./$types').RequestHandler} */
 
@@ -7,7 +8,7 @@ const prisma = new PrismaClient();
 
 export async function GET({ params }: { params: { key: string } }) {
   const key = params.key;
-  const spinner = await prisma.spinners.findFirst({
+  const spinner = await prisma.spinner.findFirst({
     where: {
       key: key,
     },
@@ -27,15 +28,17 @@ export async function GET({ params }: { params: { key: string } }) {
   });
 }
 
-export async function POST({
-  params,
-  request,
-}: {
-  params: { key: string };
-  request: Request;
-}) {
-  const key = params.key;
-  const body = await request.formData();
+export async function POST(event: RequestEvent) {
+  const authRes = await auth(event.request);
+  if (authRes.code !== 200) {
+    throw error(authRes.code, authRes.message);
+  }
+  const { userId, role } = authRes;
+  if (role !== "EDITOR") {
+    throw error(403, "Forbidden");
+  }
+  const key = event.params.key;
+  const body = await event.request.formData();
   const name = body.get("name")?.toString() ?? "";
   const twitter = body.get("twitter")?.toString() ?? "";
   const youtube = body.get("youtube")?.toString() ?? "";
@@ -43,14 +46,15 @@ export async function POST({
   if (name === "" || board == "") {
     throw error(400, "Missing parameters");
   }
-  const spinner = await prisma.spinners
+  const spinner = await prisma.spinner
     .create({
       data: {
-        key: key,
+        key: key!,
         name: name,
         twitter: twitter,
         youtube: youtube,
         board: board,
+        updaterId: userId!,
       },
     })
     .catch((e) => {
@@ -60,19 +64,21 @@ export async function POST({
   return new Response("OK", { status: 201 });
 }
 
-export async function PATCH({
-  params,
-  request,
-}: {
-  params: { key: string };
-  request: Request;
-}) {
-  const key = params.key;
-  const body = await request.formData();
+export async function PATCH(event: RequestEvent) {
+  const authRes = await auth(event.request);
+  if (authRes.code !== 200) {
+    throw error(authRes.code, authRes.message);
+  }
+  const { userId, role } = authRes;
+  if (role !== "EDITOR") {
+    throw error(403, "Forbidden");
+  }
+  const key = event.params.key;
+  const body = await event.request.formData();
   const twitter = body.get("twitter")?.toString() ?? undefined;
   const youtube = body.get("youtube")?.toString() ?? undefined;
   const board = body.get("board")?.toString() ?? undefined;
-  const spinner = await prisma.spinners
+  const spinner = await prisma.spinner
     .update({
       where: {
         key: key,
@@ -81,6 +87,7 @@ export async function PATCH({
         twitter: twitter,
         youtube: youtube,
         board: board,
+        updaterId: userId!,
       },
     })
     .catch((e) => {
