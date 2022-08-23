@@ -17,7 +17,6 @@ export async function auth(request: Request) {
     return { code: 401, message: "Unauthorized" };
   }
   const saltRounds = 10;
-  const keyHash = await bcrypt.hash(key as string, saltRounds);
   const prisma = new PrismaClient();
   const contributor = await prisma.contributor.findFirst({
     where: {
@@ -31,7 +30,7 @@ export async function auth(request: Request) {
   if (contributor === null) {
     return { code: 401, message: "Unauthorized" };
   }
-  const compare = await bcrypt.compare(keyHash, contributor.keyHash);
+  const compare = await bcrypt.compare(key as string, contributor.keyHash);
   if (!compare) {
     return { code: 403, message: "Forbidden" };
   }
