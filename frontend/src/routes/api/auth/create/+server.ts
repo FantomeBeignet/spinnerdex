@@ -39,7 +39,7 @@ export async function POST(event: RequestEvent) {
   const apiKey = Buffer.from(`${contributorId}:${contributorKey}`).toString(
     "base64"
   );
-  return new Response(JSON.stringify(apiKey), {
+  return new Response(JSON.stringify({ api_key: apiKey }), {
     headers: new Headers({ "Content-Type": "application/json" }),
   });
 }
