@@ -34,7 +34,7 @@ export async function POST(event: RequestEvent) {
     throw error(authRes.code, authRes.message);
   }
   const { userId, role } = authRes;
-  if (role !== "EDITOR") {
+  if (role === "BANNED") {
     throw error(403, "Forbidden");
   }
   const key = event.params.key;
@@ -70,7 +70,7 @@ export async function PATCH(event: RequestEvent) {
     throw error(authRes.code, authRes.message);
   }
   const { userId, role } = authRes;
-  if (role !== "EDITOR") {
+  if (role === "BANNED") {
     throw error(403, "Forbidden");
   }
   const key = event.params.key;
