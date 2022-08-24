@@ -94,5 +94,5 @@ export async function PATCH(event: RequestEvent) {
       throw error(500, e.message);
     });
   await prisma.$disconnect();
-  return new Response("OK", { status: 204 });
+  return new Response(null, { status: 204 });
 }
