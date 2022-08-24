@@ -20,7 +20,7 @@ export async function POST(event: RequestEvent) {
   if (contributorName === "") {
     throw error(400, "Missing parameters");
   }
-  const contributorId = crypto.randomBytes(8).toString("base64");
+  const contributorId = crypto.randomBytes(16).toString("hex");
   const contributorKey = crypto.randomUUID();
   const contributorKeyHash = await bcrypt.hash(contributorKey, 10);
   const prisma = new PrismaClient();
