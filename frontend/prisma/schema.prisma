@@ -26,6 +26,7 @@ model Spinner {
 enum Role {
   ADMIN
   EDITOR
+  BANNED
 }
 
 model Contributor {
