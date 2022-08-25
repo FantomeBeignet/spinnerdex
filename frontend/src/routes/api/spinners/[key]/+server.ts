@@ -38,11 +38,11 @@ export async function POST(event: RequestEvent) {
     throw error(403, "Forbidden");
   }
   const key = event.params.key;
-  const body = await event.request.formData();
-  const name = body.get("name")?.toString() ?? "";
-  const twitter = body.get("twitter")?.toString() ?? "";
-  const youtube = body.get("youtube")?.toString() ?? "";
-  const board = body.get("board")?.toString() ?? "";
+  const json = await event.request.json();
+  const name = json.name ?? "";
+  const twitter = json.twitter ?? "";
+  const youtube = json.youtube ?? "";
+  const board = json.board ?? "";
   if (name === "" || board == "") {
     throw error(400, "Missing parameters");
   }
@@ -74,10 +74,10 @@ export async function PATCH(event: RequestEvent) {
     throw error(403, "Forbidden");
   }
   const key = event.params.key;
-  const body = await event.request.formData();
-  const twitter = body.get("twitter")?.toString() ?? undefined;
-  const youtube = body.get("youtube")?.toString() ?? undefined;
-  const board = body.get("board")?.toString() ?? undefined;
+  const json = await event.request.json();
+  const twitter = json.twitter ?? undefined;
+  const youtube = json.youtube ?? undefined;
+  const board = json.board ?? undefined;
   const spinner = await prisma.spinner
     .update({
       where: {
