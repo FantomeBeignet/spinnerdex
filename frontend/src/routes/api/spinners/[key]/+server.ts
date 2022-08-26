@@ -58,6 +58,9 @@ export async function POST(event: RequestEvent) {
       },
     })
     .catch((e) => {
+      if (e.code === "P2002") {
+        throw error(409, "Spinner already exists");
+      }
       throw error(500, e.message);
     });
   await prisma.$disconnect();
@@ -91,6 +94,9 @@ export async function PATCH(event: RequestEvent) {
       },
     })
     .catch((e) => {
+      if (e.code === "P2025") {
+        throw error(409, "No spinner with this key exists");
+      }
       throw error(500, e.message);
     });
   await prisma.$disconnect();
