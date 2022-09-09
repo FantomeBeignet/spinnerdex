@@ -1,4 +1,3 @@
-import { error } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -9,6 +8,11 @@ export async function load() {
     orderBy: {
       key: "asc",
     },
+    select: {
+      key: true,
+      name: true,
+      board: true,
+    }
   });
   await prisma.$disconnect();
   return data;
